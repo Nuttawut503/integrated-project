@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.black,
         body: SafeArea(
           child: Container(
-            child: Text('Hello World'),
+            child: Text('Hello World', style: GoogleFonts.openSans(color: Colors.white),),
           ),
         ),
       ),
