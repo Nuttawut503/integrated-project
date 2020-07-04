@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:LAWTALK/bloc_debugger.dart';
 import 'package:LAWTALK/authentication/authentication_bloc.dart';
 import 'package:LAWTALK/api/user_repository.dart';
 import 'package:LAWTALK/view/home_screen.dart';
+import 'package:LAWTALK/view/login_screen.dart';
+import 'package:LAWTALK/view/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +28,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // In preparation, Not sure where to use at the current moment
   final UserRepository _userRepository;
 
   MyApp({Key key, @required UserRepository userRepository})
@@ -35,13 +37,48 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return WillPopScope(
+      child: MaterialApp(
+        title: 'LAWTALK',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state) {
+            if (state is Unauthenticated) {
+              return LoginScreen(
+                userRepository: _userRepository,
+              );
+            }
+            if (state is Authenticated) {
+              return HomeScreen(
+                currentUser: state.currentUser,
+              );
+            }
+            return SplashScreen();
+          },
+        ),
       ),
-      home: HomeScreen(),
+      onWillPop: () async {
+        return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Are you sure?', style: GoogleFonts.openSans()),
+            content: Text('Do you want to exit the app', style: GoogleFonts.openSans()),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('No', style: GoogleFonts.openSans()),
+              ),
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('Yes', style: GoogleFonts.openSans()),
+              ),
+            ],
+          ),
+        )) ?? false;
+      },
     );
   }
 }
