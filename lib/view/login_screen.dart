@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:LAWTALK/api/user_repository.dart';
 import 'package:LAWTALK/authentication/authentication_bloc.dart';
-import 'package:LAWTALK/controllers/login/bloc.dart';
+import 'package:LAWTALK/controllers/login/login_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   final UserRepository _userRepository;

@@ -37,14 +37,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      child: MaterialApp(
-        title: 'LAWTALK',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+    return MaterialApp(
+      title: 'LAWTALK',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: WillPopScope(
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             if (state is Unauthenticated) {
               return LoginScreen(
@@ -59,26 +59,26 @@ class MyApp extends StatelessWidget {
             return SplashScreen();
           },
         ),
+        onWillPop: () async {
+          return (await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Are you sure?', style: GoogleFonts.openSans()),
+              content: Text('Do you want to exit the app', style: GoogleFonts.openSans()),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text('No', style: GoogleFonts.openSans()),
+                ),
+                FlatButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: Text('Yes', style: GoogleFonts.openSans()),
+                ),
+              ],
+            ),
+          )) ?? false;
+        },
       ),
-      onWillPop: () async {
-        return (await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Are you sure?', style: GoogleFonts.openSans()),
-            content: Text('Do you want to exit the app', style: GoogleFonts.openSans()),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text('No', style: GoogleFonts.openSans()),
-              ),
-              FlatButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text('Yes', style: GoogleFonts.openSans()),
-              ),
-            ],
-          ),
-        )) ?? false;
-      },
     );
   }
 }

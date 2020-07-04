@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:LAWTALK/controllers/login/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:LAWTALK/api/user_repository.dart';
+
+part 'login_event.dart';
+part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   UserRepository _userRepository;

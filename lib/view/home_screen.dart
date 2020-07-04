@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:LAWTALK/authentication/authentication_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   final Map _currentUser;
@@ -14,7 +16,22 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Container(
-          child: Text('Hello World ${_currentUser['name']}', style: GoogleFonts.openSans(color: Colors.white),),
+          child: Column(
+            children: <Widget>[
+              Text('Hello World ${_currentUser['name']}', style: GoogleFonts.openSans(color: Colors.white),),
+              SizedBox(height: 16.0,),
+              RaisedButton(
+                onPressed: () {
+                  BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
+                },
+                child: Text(
+                  'Sign out',
+                  style: GoogleFonts.openSans(color: Colors.white, fontSize: 14.0,),
+                ),
+                color: Colors.green,
+              )
+            ],
+          )
         ),
       ),
     );
