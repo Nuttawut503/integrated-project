@@ -40,13 +40,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        'Peko↗️Peko↘️Peko↗️Peko ${widget._currentUser['name']}',
-                        style: GoogleFonts.openSans(
-                            color: Colors.black,
-                            fontSize: 32,
-                            fontWeight: FontWeight.w700),
-                        textAlign: TextAlign.center,
+                      Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.red[500],
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: Text(
+                          'Peko↗️Peko↘️Peko↗ ${widget._currentUser['name']}',
+                          style: GoogleFonts.openSans(
+                              color: Colors.black,
+                              fontSize: 32,
+                              fontWeight: FontWeight.w700),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                       SizedBox(
                         height: 16.0,
@@ -64,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         color: Colors.green,
-                      )
+                      ),
                     ],
                   )),
               Container(
