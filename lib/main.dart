@@ -1,3 +1,4 @@
+import 'package:LAWTALK/controllers/bottom-nav/bottom_nav_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bloc/bloc.dart';
@@ -13,18 +14,16 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final UserRepository userRepository = UserRepository();
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<AuthenticationBloc>(
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider<AuthenticationBloc>(
           create: (context) => AuthenticationBloc(
-            userRepository: userRepository,
-          )..add(AppStarted())
-        ),
-      ],
-      child: MyApp(userRepository: userRepository),
-    )
-  );
+                userRepository: userRepository,
+              )..add(AppStarted())),
+      BlocProvider<BottomNavBloc>(create: (context) => BottomNavBloc())
+    ],
+    child: MyApp(userRepository: userRepository),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -61,22 +60,24 @@ class MyApp extends StatelessWidget {
         ),
         onWillPop: () async {
           return (await showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Are you sure?', style: GoogleFonts.openSans()),
-              content: Text('Do you want to exit the app', style: GoogleFonts.openSans()),
-              actions: <Widget>[
-                FlatButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: Text('No', style: GoogleFonts.openSans()),
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('Are you sure?', style: GoogleFonts.openSans()),
+                  content: Text('Do you want to exit the app',
+                      style: GoogleFonts.openSans()),
+                  actions: <Widget>[
+                    FlatButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: Text('No', style: GoogleFonts.openSans()),
+                    ),
+                    FlatButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: Text('Yes', style: GoogleFonts.openSans()),
+                    ),
+                  ],
                 ),
-                FlatButton(
-                  onPressed: () => Navigator.of(context).pop(true),
-                  child: Text('Yes', style: GoogleFonts.openSans()),
-                ),
-              ],
-            ),
-          )) ?? false;
+              )) ??
+              false;
         },
       ),
     );
