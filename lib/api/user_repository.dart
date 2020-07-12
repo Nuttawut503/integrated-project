@@ -21,7 +21,6 @@ class UserRepository {
       idToken: googleAuth.idToken,
     );
     await _firebaseAuth.signInWithCredential(credential);
-    await _updateUserActivation(await getUser());
     return _firebaseAuth.currentUser();
   }
 
@@ -32,29 +31,29 @@ class UserRepository {
     );
   }
 
-  Future<void> _updateUserActivation(user) async {
-    final userSnapshot = await _userCollection.document('${user['id']}').get();
-    if (userSnapshot.exists) {
-      await _userCollection
-        .document('${user['id']}')
-        .updateData({
-          'name': user['name'],
-          'profile_image_url': user['profile_picture_url'],
-          'latest_signin': DateTime.now()
-        });
-    } else {
-      await _userCollection
-        .document('${user['id']}')
-        .setData({
-          'email': user['email'],
-          'name': user['name'],
-          'profile_image_url': user['profile_picture_url'],
-          'signup_date': DateTime.now(),
-          'latest_signin': DateTime.now(),
-          'is_admin': false
-        });
-    }
-  }
+  // Future<void> _updateUserActivation(user) async {
+  //   final userSnapshot = await _userCollection.document('${user['id']}').get();
+  //   if (userSnapshot.exists) {
+  //     await _userCollection
+  //       .document('${user['id']}')
+  //       .updateData({
+  //         'name': user['name'],
+  //         'profile_image_url': user['profile_picture_url'],
+  //         'latest_signin': DateTime.now()
+  //       });
+  //   } else {
+  //     await _userCollection
+  //       .document('${user['id']}')
+  //       .setData({
+  //         'email': user['email'],
+  //         'name': user['name'],
+  //         'profile_image_url': user['profile_picture_url'],
+  //         'signup_date': DateTime.now(),
+  //         'latest_signin': DateTime.now(),
+  //         'is_admin': false
+  //       });
+  //   }
+  // }
 
   Future<String> findNameOfUserById(userId) async {
     return (await _userCollection.document('$userId').get()).data['name'];
@@ -72,13 +71,16 @@ class UserRepository {
     return currentUser != null;
   }
 
-  Future<Map<String, String>> getUser() async {
+  Future<Map<String, dynamic>> getUser() async {
     final currentUser = await _firebaseAuth.currentUser();
+    final userSnapshot = await _userCollection.document('${currentUser.uid}').get();
     return {
       'id': currentUser.uid,
       'name': currentUser.displayName,
       'email': currentUser.email,
       'profile_picture_url': currentUser.photoUrl,
+      'verified': userSnapshot.exists? true: false,
+      'is_lawyer': userSnapshot.exists && userSnapshot.data['is_lawyer']? true: false,
     };
   }
 }

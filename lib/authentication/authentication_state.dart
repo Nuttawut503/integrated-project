@@ -23,7 +23,9 @@ class Authenticated extends AuthenticationState {
       id: ${currentUser['id']}, 
       name: ${currentUser['name']}, 
       email: ${currentUser['email']},
-      profile_picture_url: ${currentUser['profile_picture_url']}
+      profile_picture_url: ${currentUser['profile_picture_url']},
+      verified: ${currentUser['verified']},
+      is_lawyer: ${currentUser['is_lawyer']},
     }\n''';
   }
 }

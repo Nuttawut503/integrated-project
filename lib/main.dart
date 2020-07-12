@@ -7,6 +7,7 @@ import 'package:LAWTALK/bloc_debugger.dart';
 import 'package:LAWTALK/authentication/authentication_bloc.dart';
 import 'package:LAWTALK/api/user_repository.dart';
 import 'package:LAWTALK/view/home_screen.dart';
+import 'package:LAWTALK/view/verify_screen.dart';
 import 'package:LAWTALK/view/login_screen.dart';
 import 'package:LAWTALK/view/splash_screen.dart';
 
@@ -51,33 +52,38 @@ class MyApp extends StatelessWidget {
               );
             }
             if (state is Authenticated) {
-              return HomeScreen(
-                currentUser: state.currentUser,
-              );
+              if (state.currentUser['verified']) {
+                return HomeScreen(
+                  currentUser: state.currentUser,
+                );
+              } else {
+                return VerifyScreen(
+                  currentUser: state.currentUser,
+                );
+              }
             }
             return SplashScreen();
           },
         ),
         onWillPop: () async {
           return (await showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text('Are you sure?', style: GoogleFonts.openSans()),
-                  content: Text('Do you want to exit the app',
-                      style: GoogleFonts.openSans()),
-                  actions: <Widget>[
-                    FlatButton(
-                      onPressed: () => Navigator.of(context).pop(false),
-                      child: Text('No', style: GoogleFonts.openSans()),
-                    ),
-                    FlatButton(
-                      onPressed: () => Navigator.of(context).pop(true),
-                      child: Text('Yes', style: GoogleFonts.openSans()),
-                    ),
-                  ],
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Are you sure?', style: GoogleFonts.openSans()),
+              content: Text('Do you want to exit the app',
+                  style: GoogleFonts.openSans()),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text('No', style: GoogleFonts.openSans()),
                 ),
-              )) ??
-              false;
+                FlatButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: Text('Yes', style: GoogleFonts.openSans()),
+                ),
+              ],
+            ),
+          )) ?? false;
         },
       ),
     );
