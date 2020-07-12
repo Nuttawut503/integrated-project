@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:LAWTALK/authentication/authentication_bloc.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:LAWTALK/view/case_lists_screen.dart';
+import 'package:LAWTALK/view/relevant_case_screen.dart';
+import 'package:LAWTALK/view/setting_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final Map _currentUser;
