@@ -1,6 +1,6 @@
-part of 'case_info_bloc.dart';
+part of 'setting_bloc.dart';
 
-abstract class CaseInfoEvent extends Equatable {
+abstract class SettingEvent extends Equatable {
   @override
   List<Object> get props => [];
 }

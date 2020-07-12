@@ -18,10 +18,13 @@ void main() {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider<AuthenticationBloc>(
-          create: (context) => AuthenticationBloc(
-                userRepository: userRepository,
-              )..add(AppStarted())),
-      BlocProvider<BottomNavBloc>(create: (context) => BottomNavBloc())
+        create: (context) => AuthenticationBloc(
+          userRepository: userRepository,
+        )..add(AppStarted())
+      ),
+      BlocProvider<BottomNavBloc>(
+        create: (context) => BottomNavBloc()
+      ),
     ],
     child: MyApp(userRepository: userRepository),
   ));

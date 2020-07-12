@@ -66,8 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          BlocProvider.of<AuthenticationBloc>(context)
-                              .add(LoggedOut());
+                          BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
                         },
                         child: Text(
                           'Sign out',
