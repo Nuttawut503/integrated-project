@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:LAWTALK/api/user_repository.dart';
 
@@ -9,6 +10,7 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepository _userRepository;
+  StreamSubscription _userSubscription;
 
   AuthenticationBloc({@required UserRepository userRepository})
       : assert(userRepository != null),
@@ -25,6 +27,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       yield* _mapAppStartedToState();
     } else if (event is LoggedIn) {
       yield* _mapLoggedInToState();
+    } else if (event is UserInfoUpdated) {
+      yield* _mapUserInfoUpdatedToState(event);
     } else if (event is LoggedOut) {
       yield* _mapLoggedOutToState();
     }
@@ -33,19 +37,43 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     final isSignedIn = await _userRepository.isSignedIn();
     if (isSignedIn) {
-      final currentUser = await _userRepository.getUser();
-      yield Authenticated(currentUser);
+      add(LoggedIn());
     } else {
       yield Unauthenticated();
     }
   }
 
   Stream<AuthenticationState> _mapLoggedInToState() async* {
-    yield Authenticated(await _userRepository.getUser());
+    FirebaseUser constInfo = await _userRepository.getConstUserInfo();
+    _userSubscription?.cancel();
+    _userSubscription = _userRepository.getEditableUserInfo(constInfo.uid)
+                        .listen((editableInfo) => add(
+                          UserInfoUpdated(
+                            constInfo: constInfo,
+                            editableInfo: editableInfo.exists? editableInfo.data: Map()
+                          )
+                        ));
+  }
+
+  Stream<AuthenticationState> _mapUserInfoUpdatedToState(UserInfoUpdated user) async* {
+    yield Authenticated({
+      'id': user.constInfo.uid,
+      'name': user.constInfo.displayName,
+      'email': user.constInfo.email,
+      'photo_url': user.constInfo.photoUrl,
+      'verified': user.editableInfo['verified'] ?? false,
+      'is_lawyer': user.editableInfo['is_lawyer'] ?? false,
+    });
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {
     yield Unauthenticated();
     _userRepository.signOut();
+  }
+
+  @override
+  Future<void> close() {
+    _userSubscription?.cancel();
+    return super.close();
   }
 }

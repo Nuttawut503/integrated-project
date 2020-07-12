@@ -20,8 +20,8 @@ class Authenticated extends AuthenticationState {
   @override
   String toString() {
     return '''Authenticated { 
-      id: ${currentUser['id']}, 
-      name: ${currentUser['name']}, 
+      id: ${currentUser['id']},
+      name: ${currentUser['name']},
       email: ${currentUser['email']},
       profile_picture_url: ${currentUser['profile_picture_url']},
       verified: ${currentUser['verified']},
