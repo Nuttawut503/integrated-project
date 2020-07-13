@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:LAWTALK/authentication/authentication_bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserVerifyScreen extends StatefulWidget {
   final Map _currentUser;
@@ -16,26 +17,29 @@ class UserVerifyScreen extends StatefulWidget {
 }
 
 class _UserVerifyScreenState extends State<UserVerifyScreen> {
+  final databaseReference = Firestore.instance;
   final formKey = GlobalKey<FormState>();
   String _firstName, _lastName, _address, _occupation;
   int _citizenID, _phoneNo;
 
   @override
   Widget build(BuildContext context) {
+    print(widget._currentUser['email']);
     return Scaffold(
       // backgroundColor: Colors.black,
       body: SafeArea(
         child: new GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
+            _validate();
           },
           child: Container(
             width: double.infinity,
-            padding: EdgeInsets.all(30),
             child: Form(
               key: formKey,
               child: Center(
                 child: ListView(
+                  padding: EdgeInsets.all(30),
                   shrinkWrap: true,
                   children: <Widget>[
                     firstNameField(),
@@ -51,11 +55,11 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
                       alignment: Alignment.bottomRight,
                       child: RaisedButton(
                         onPressed: () {
-                          _submit();
+                          _createRecord();
                           // Navigator.pop(context);
                         },
                         child: Text(
-                          'Submit',
+                          'Next',
                           style: GoogleFonts.openSans(
                             color: Colors.white,
                             fontSize: 14.0,
@@ -85,6 +89,7 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
       maxLength: 30,
       validator: (input) => input.isEmpty ? 'Pleae enter your name' : null,
       onSaved: (input) => _firstName = input,
+      onTap: () => _validate(),
     );
   }
 
@@ -99,6 +104,7 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
       maxLength: 30,
       validator: (input) => input.isEmpty ? 'Pleae enter your name' : null,
       onSaved: (input) => _lastName = input,
+      onTap: () => _validate(),
     );
   }
 
@@ -113,6 +119,7 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
       maxLength: 70,
       validator: (input) => input.isEmpty ? 'Pleae enter your address' : null,
       onSaved: (input) => _address = input,
+      onTap: () => _validate(),
     );
   }
 
@@ -127,6 +134,7 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
       maxLength: 10,
       validator: (input) => input.length < 10 ? 'Invalid phone number' : null,
       onSaved: (input) => _phoneNo = int.parse(input),
+      onTap: () => _validate(),
     );
   }
 
@@ -142,6 +150,7 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
       validator: (input) =>
           input.isEmpty ? 'Pleae enter your occupation' : null,
       onSaved: (input) => _occupation = input,
+      onTap: () => _validate(),
     );
   }
 
@@ -157,13 +166,43 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
       maxLength: 14,
       validator: (input) => input.length < 14 ? 'Invalid citizen ID' : null,
       onSaved: (input) => _citizenID = int.parse(input),
+      onTap: () => _validate(),
     );
   }
 
-  void _submit() {
+  void _validate() {
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
       print(_firstName);
+    }
+  }
+
+  void _createRecord() async {
+    if (formKey.currentState.validate()) {
+      formKey.currentState.save();
+      try {
+        print('---------------------------------------------------------');
+        print(widget._currentUser.toString());
+        print('---------------------------------------------------------');
+
+        DocumentReference nice =
+            await databaseReference.collection("registered_user").add({
+          'email': '${widget._currentUser['email']}',
+          'first_name': '$_firstName',
+          'last_name': '$_lastName',
+          'address': '$_address',
+          'phone': '$_phoneNo',
+          'occupation': '$_occupation',
+          'citizenID': '$_citizenID',
+          'citizen_picture': null,
+          'isVerified': true,
+          'isLawyer': false,
+          'lawyer_picture': null
+        });
+      } catch (err) {
+        print(err);
+        throw (err);
+      }
     }
   }
 }
