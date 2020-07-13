@@ -8,9 +8,8 @@ part 'relevant_case_state.dart';
 
 class RelevantCaseBloc extends Bloc<RelevantCaseEvent, RelevantCaseState> {
 
-  @override
-  RelevantCaseState get initialState => RelevantCaseInitialState();
-
+  RelevantCaseBloc(): super(RelevantCaseInitialState());
+  
   @override
   Stream<RelevantCaseState> mapEventToState(
     RelevantCaseEvent event,

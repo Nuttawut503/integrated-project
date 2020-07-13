@@ -8,10 +8,8 @@ part 'bottom_nav_event.dart';
 part 'bottom_nav_state.dart';
 
 class BottomNavBloc extends Bloc<BottomNavEvent, BottomNavState> {
-  BottomNavBloc();
-
-  @override
-  BottomNavState get initialState => BottomNavState(currentPage: 0);
+  
+  BottomNavBloc(): super(BottomNavState(currentPage: 0));
 
   @override
   Stream<BottomNavState> mapEventToState(

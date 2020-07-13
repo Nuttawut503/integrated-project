@@ -1,6 +1,5 @@
 import 'package:LAWTALK/controllers/bottom-nav/bottom_nav_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:LAWTALK/bloc_debugger.dart';
@@ -13,7 +12,7 @@ import 'package:LAWTALK/view/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  BlocSupervisor.delegate = SimpleBlocDelegate();
+  Bloc.observer = SimpleBlocObserver();
   final UserRepository userRepository = UserRepository();
   runApp(
     MultiBlocProvider(

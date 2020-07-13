@@ -13,11 +13,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   StreamSubscription _userSubscription;
 
   AuthenticationBloc({@required UserRepository userRepository})
-      : assert(userRepository != null),
-        _userRepository = userRepository;
-
-  @override
-  AuthenticationState get initialState => Uninitialized();
+    : assert(userRepository != null),
+      _userRepository = userRepository,
+      super(Uninitialized());
 
   @override
   Stream<AuthenticationState> mapEventToState(
