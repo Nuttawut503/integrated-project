@@ -9,6 +9,10 @@ class CaseListsScreen extends StatelessWidget {
     return BlocProvider<CaseListsBloc>(
       create: (context) => CaseListsBloc(),
       child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(229, 229, 255, 1.0),
+          image: DecorationImage(image: AssetImage('images/pekora.jpg'), fit: BoxFit.cover),
+        ),
         child: Text('CaseListsScreen goes sring sring ', style: GoogleFonts.openSans(),),
       ),
     );

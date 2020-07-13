@@ -9,6 +9,10 @@ class RelevantCaseScreen extends StatelessWidget {
     return BlocProvider<RelevantCaseBloc>(
       create: (context) => RelevantCaseBloc(),
       child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(229, 229, 255, 1.0),
+          image: DecorationImage(image: AssetImage('images/shinobu.jpg'), fit: BoxFit.cover),
+        ),
         child: Text('RelevantCaseScreen goes sring sring ', style: GoogleFonts.openSans(),),
       ),
     );
