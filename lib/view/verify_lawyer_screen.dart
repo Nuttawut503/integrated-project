@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:LAWTALK/authentication/authentication_bloc.dart';
-import 'package:LAWTALK/view/verify_user_screen.dart';
-import 'package:LAWTALK/view/verify_lawyer_screen.dart';
 
-class VerifyScreen extends StatefulWidget {
+class LawyerVerifyScreen extends StatefulWidget {
   final Map _currentUser;
 
-  VerifyScreen({Key key, Map currentUser})
+  LawyerVerifyScreen({Key key, Map currentUser})
       : _currentUser = currentUser,
         super(key: key);
 
   @override
-  _VerifyScreenState createState() => _VerifyScreenState();
+  _LawyerVerifyScreenState createState() => _LawyerVerifyScreenState();
 }
 
-class _VerifyScreenState extends State<VerifyScreen> {
+class _LawyerVerifyScreenState extends State<LawyerVerifyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,12 +34,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 height: 16.0,
               ),
               RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => UserVerifyScreen()));
-                },
+                onPressed: () {},
                 child: Text(
                   'Verify as regular user',
                   style: GoogleFonts.openSans(
@@ -52,12 +45,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 color: Colors.pinkAccent,
               ),
               RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => LawyerVerifyScreen()));
-                },
+                onPressed: () {},
                 child: Text(
                   'Verify as lawyer',
                   style: GoogleFonts.openSans(
