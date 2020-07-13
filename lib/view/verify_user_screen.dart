@@ -25,43 +25,47 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
     return Scaffold(
       // backgroundColor: Colors.black,
       body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(30),
-          child: Form(
-            key: formKey,
-            child: Center(
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  firstNameField(),
-                  lastNameField(),
-                  addressField(),
-                  phoneField(),
-                  occupationField(),
-                  citizenIDField(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: RaisedButton(
-                      onPressed: () {
-                        BlocProvider.of<AuthenticationBloc>(context)
-                            .add(LoggedOut());
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        'Submit',
-                        style: GoogleFonts.openSans(
-                          color: Colors.white,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                      color: Colors.indigoAccent,
+        child: new GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(30),
+            child: Form(
+              key: formKey,
+              child: Center(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    firstNameField(),
+                    lastNameField(),
+                    addressField(),
+                    phoneField(),
+                    occupationField(),
+                    citizenIDField(),
+                    SizedBox(
+                      height: 20,
                     ),
-                  )
-                ],
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: RaisedButton(
+                        onPressed: () {
+                          _submit();
+                          // Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Submit',
+                          style: GoogleFonts.openSans(
+                            color: Colors.white,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        color: Colors.indigoAccent,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -154,5 +158,12 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
       validator: (input) => input.length < 14 ? 'Invalid citizen ID' : null,
       onSaved: (input) => _citizenID = int.parse(input),
     );
+  }
+
+  void _submit() {
+    if (formKey.currentState.validate()) {
+      formKey.currentState.save();
+      print(_firstName);
+    }
   }
 }
