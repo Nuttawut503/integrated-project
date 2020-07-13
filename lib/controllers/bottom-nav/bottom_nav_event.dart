@@ -6,11 +6,11 @@ abstract class BottomNavEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class InitialPage extends BottomNavEvent {}
+class PageIndexUpdated extends BottomNavEvent {
+  final int pageNumber;
 
-class GetPage extends BottomNavEvent {
-  final int page;
-  const GetPage({this.page});
+  const PageIndexUpdated({@required this.pageNumber});
+  
   @override
-  List<Object> get props => [page];
+  List<Object> get props => [pageNumber];
 }

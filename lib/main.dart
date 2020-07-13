@@ -15,19 +15,21 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final UserRepository userRepository = UserRepository();
-  runApp(MultiBlocProvider(
-    providers: [
-      BlocProvider<AuthenticationBloc>(
-        create: (context) => AuthenticationBloc(
-          userRepository: userRepository,
-        )..add(AppStarted())
-      ),
-      BlocProvider<BottomNavBloc>(
-        create: (context) => BottomNavBloc()
-      ),
-    ],
-    child: MyApp(userRepository: userRepository),
-  ));
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationBloc>(
+          create: (context) => AuthenticationBloc(
+            userRepository: userRepository,
+          )..add(AppStarted())
+        ),
+        BlocProvider<BottomNavBloc>(
+          create: (context) => BottomNavBloc()
+        ),
+      ],
+      child: MyApp(userRepository: userRepository),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -43,52 +45,29 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'LAWTALK',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightBlue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: WillPopScope(
-        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          builder: (context, state) {
-            if (state is Unauthenticated) {
-              return LoginScreen(
-                userRepository: _userRepository,
+      home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          if (state is Unauthenticated) {
+            return LoginScreen(
+              userRepository: _userRepository,
+            );
+          }
+          if (state is Authenticated) {
+            if (state.currentUser['verified']) {
+              return HomeScreen(
+                currentUser: state.currentUser,
               );
             }
-            if (state is Authenticated) {
-              if (state.currentUser['verified']) {
-                return HomeScreen(
-                  currentUser: state.currentUser,
-                );
-              } else {
-                return VerifyScreen(
-                  currentUser: state.currentUser,
-                );
-              }
-            }
-            return SplashScreen();
-          },
-        ),
-        onWillPop: () async {
-          return (await showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Are you sure?', style: GoogleFonts.openSans()),
-              content: Text('Do you want to exit the app',
-                  style: GoogleFonts.openSans()),
-              actions: <Widget>[
-                FlatButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: Text('No', style: GoogleFonts.openSans()),
-                ),
-                FlatButton(
-                  onPressed: () => Navigator.of(context).pop(true),
-                  child: Text('Yes', style: GoogleFonts.openSans()),
-                ),
-              ],
-            ),
-          )) ?? false;
+            return VerifyScreen(
+              currentUser: state.currentUser,
+            );
+          }
+          return SplashScreen();
         },
-      ),
+      )
     );
   }
 }

@@ -1,12 +1,13 @@
 part of 'bottom_nav_bloc.dart';
 
-class BottomNavInitial {
-  int page = 0;
-  BottomNavInitial({this.page});
-}
-
 @immutable
 class BottomNavState {
-  final int page;
-  BottomNavState({@required this.page});
+  final int currentPage;
+
+  BottomNavState({@required this.currentPage});
+
+  @override
+  String toString() {
+    return '''BottomNavPage { currentPage: $currentPage }\n''';
+  }
 }
