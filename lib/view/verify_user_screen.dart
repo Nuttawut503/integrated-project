@@ -189,8 +189,10 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
         print(widget._currentUser.toString());
         print('---------------------------------------------------------');
 
-        DocumentReference nice =
-            await databaseReference.collection("registered_user").add({
+        await databaseReference
+            .collection("registered_user")
+            .document('${widget._currentUser['id']}')
+            .setData({
           'email': '${widget._currentUser['email']}',
           'first_name': '$_firstName',
           'last_name': '$_lastName',
