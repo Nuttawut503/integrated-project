@@ -1,4 +1,5 @@
 import 'package:LAWTALK/controllers/bottom-nav/bottom_nav_bloc.dart';
+import 'package:LAWTALK/controllers/image-uploads/image_uploads_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bloc/bloc.dart';
@@ -15,21 +16,17 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final UserRepository userRepository = UserRepository();
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<AuthenticationBloc>(
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider<AuthenticationBloc>(
           create: (context) => AuthenticationBloc(
-            userRepository: userRepository,
-          )..add(AppStarted())
-        ),
-        BlocProvider<BottomNavBloc>(
-          create: (context) => BottomNavBloc()
-        ),
-      ],
-      child: MyApp(userRepository: userRepository),
-    )
-  );
+                userRepository: userRepository,
+              )..add(AppStarted())),
+      BlocProvider<BottomNavBloc>(create: (context) => BottomNavBloc()),
+      BlocProvider<ImageUploadsBloc>(create: (context) => ImageUploadsBloc())
+    ],
+    child: MyApp(userRepository: userRepository),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -43,31 +40,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'LAWTALK',
-      theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        builder: (context, state) {
-          if (state is Unauthenticated) {
-            return LoginScreen(
-              userRepository: _userRepository,
-            );
-          }
-          if (state is Authenticated) {
-            if (state.currentUser['verified']) {
-              return HomeScreen(
+        title: 'LAWTALK',
+        theme: ThemeData(
+          primarySwatch: Colors.lightBlue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state) {
+            if (state is Unauthenticated) {
+              return LoginScreen(
+                userRepository: _userRepository,
+              );
+            }
+            if (state is Authenticated) {
+              if (state.currentUser['verified']) {
+                return HomeScreen(
+                  currentUser: state.currentUser,
+                );
+              }
+              return VerifyScreen(
                 currentUser: state.currentUser,
               );
             }
-            return VerifyScreen(
-              currentUser: state.currentUser,
-            );
-          }
-          return SplashScreen();
-        },
-      )
-    );
+            return SplashScreen();
+          },
+        ));
   }
 }

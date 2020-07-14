@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:LAWTALK/authentication/authentication_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:LAWTALK/view/upload_image_screen.dart';
 
 class UserVerifyScreen extends StatefulWidget {
   final Map _currentUser;
@@ -56,6 +55,11 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           _createRecord();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ImageUploadScreen(
+                                      currentUser: widget._currentUser)));
                           // Navigator.pop(context);
                         },
                         child: Text(

@@ -40,7 +40,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => UserVerifyScreen()));
+                          builder: (context) => UserVerifyScreen(
+                              currentUser: widget._currentUser)));
                 },
                 child: Text(
                   'Verify as regular user',
