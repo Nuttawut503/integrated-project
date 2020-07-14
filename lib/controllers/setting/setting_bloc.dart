@@ -8,9 +8,8 @@ part 'setting_state.dart';
 
 class SettingBloc extends Bloc<SettingEvent, SettingState> {
 
-  @override
-  SettingState get initialState => SettingInitialState();
-
+  SettingBloc(): super(SettingInitialState());
+  
   @override
   Stream<SettingState> mapEventToState(
     SettingEvent event,

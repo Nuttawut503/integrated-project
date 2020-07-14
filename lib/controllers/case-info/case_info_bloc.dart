@@ -8,8 +8,7 @@ part 'case_info_state.dart';
 
 class CaseInfoBloc extends Bloc<CaseInfoEvent, CaseInfoState> {
 
-  @override
-  CaseInfoState get initialState => CaseInfoInitialState();
+  CaseInfoBloc(): super(CaseInfoInitialState());
 
   @override
   Stream<CaseInfoState> mapEventToState(

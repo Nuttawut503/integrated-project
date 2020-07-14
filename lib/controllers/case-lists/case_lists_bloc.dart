@@ -8,8 +8,7 @@ part 'case_lists_state.dart';
 
 class CaseListsBloc extends Bloc<CaseListsEvent, CaseListsState> {
 
-  @override
-  CaseListsState get initialState => CaseListsInitialState();
+  CaseListsBloc(): super(CaseListsInitialState());
 
   @override
   Stream<CaseListsState> mapEventToState(
