@@ -11,10 +11,7 @@ part 'image_uploads_event.dart';
 part 'image_uploads_state.dart';
 
 class ImageUploadsBloc extends Bloc<ImageUploadsEvent, ImageUploadsState> {
-  ImageUploadsBloc();
-
-  @override
-  ImageUploadsState get initialState => ImageUploadsInitial();
+  ImageUploadsBloc() : super(ImageUploadsInitial());
 
   @override
   Stream<ImageUploadsState> mapEventToState(
@@ -35,7 +32,9 @@ class ImageUploadsBloc extends Bloc<ImageUploadsEvent, ImageUploadsState> {
   }
 
   Stream<ImageUploadsState> _pickImage(ImageSource source) async* {
+    print('haha');
     final selected = await ImagePicker().getImage(source: source);
+    print('yes');
     yield PickedImage(imageFile: selected);
   }
 
