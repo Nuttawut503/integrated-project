@@ -60,7 +60,6 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
                               MaterialPageRoute(
                                   builder: (context) => ImageUploadScreen(
                                       currentUser: widget._currentUser)));
-                          // Navigator.pop(context);
                         },
                         child: Text(
                           'Next',
@@ -162,13 +161,13 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
     return TextFormField(
       decoration: InputDecoration(
           labelText: 'Citizen ID',
-          hintText: 'Enter your 14 digit citizen ID here'),
+          hintText: 'Enter your 13 digit citizen ID here'),
       keyboardType: TextInputType.numberWithOptions(),
       inputFormatters: [
         WhitelistingTextInputFormatter.digitsOnly,
       ],
-      maxLength: 14,
-      validator: (input) => input.length < 14 ? 'Invalid citizen ID' : null,
+      maxLength: 13,
+      validator: (input) => input.length < 13 ? 'Invalid citizen ID' : null,
       onSaved: (input) => _citizenID = int.parse(input),
       onTap: () => _validate(),
     );
@@ -201,7 +200,7 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
           'occupation': '$_occupation',
           'citizenID': '$_citizenID',
           'citizen_picture': null,
-          'isVerified': true,
+          'isVerified': false,
           'isLawyer': false,
           'lawyer_picture': null
         });
