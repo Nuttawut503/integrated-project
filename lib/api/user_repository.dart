@@ -11,7 +11,7 @@ class UserRepository {
   UserRepository({FirebaseAuth firebaseAuth, GoogleSignIn googleSignin, CollectionReference userCollection})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn = googleSignin ?? GoogleSignIn(),
-        _userCollection = userCollection ?? Firestore.instance.collection('users');
+        _userCollection = userCollection ?? Firestore.instance.collection('registered_user');
 
   Future<FirebaseUser> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
