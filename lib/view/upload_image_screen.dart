@@ -28,27 +28,16 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
         child: BlocBuilder<ImageUploadsBloc, ImageUploadsState>(
             builder: (context, state) {
           return Container(
-            width: double.infinity,
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            // width: double.infinity,
+            padding: EdgeInsets.fromLTRB(10, 30, 10, 0),
+            child: ListView(
               children: <Widget>[
-                Text(
-                  'Helooo',
-                  style: GoogleFonts.openSans(color: Colors.white),
-                ),
-                Text(
-                  '${state.toString()}',
-                  style: GoogleFonts.openSans(color: Colors.white),
-                ),
                 if (state is PickedImage && state.imageFile != null) ...[
                   Container(
                       height: 400,
                       child: Image.file(File(state.imageFile.path))),
-                  Text(
-                    'Hello',
-                    style: GoogleFonts.openSans(color: Colors.white),
+                  SizedBox(
+                    height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -75,28 +64,27 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                   SizedBox(
                     height: 5,
                   ),
-                  RaisedButton(
-                    onPressed: () {
-                      _submit(File(state.imageFile.path));
-                    },
-                    child: Text(
-                      'Submit',
-                      style: GoogleFonts.openSans(
-                        color: Colors.white,
-                        fontSize: 14.0,
+                  Align(
+                    alignment: Alignment.center,
+                    child: RaisedButton(
+                      onPressed: () {
+                        _submit(File(state.imageFile.path));
+                      },
+                      child: Text(
+                        'Submit',
+                        style: GoogleFonts.openSans(
+                          color: Colors.white,
+                          fontSize: 14.0,
+                        ),
                       ),
+                      color: Colors.lightBlue,
                     ),
-                    color: Colors.lightBlue,
                   ),
                   SizedBox(
                     height: 10,
                   ),
                 ] else if (state is CropedImage && state.imageFile != null) ...[
                   Container(height: 400, child: Image.file(state.imageFile)),
-                  Text(
-                    'Hello',
-                    style: GoogleFonts.openSans(color: Colors.white),
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -118,7 +106,29 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                                 .add(ClearImage()),
                       ),
                     ],
-                  )
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: RaisedButton(
+                      onPressed: () {
+                        _submit(File(state.imageFile.path));
+                      },
+                      child: Text(
+                        'Submit',
+                        style: GoogleFonts.openSans(
+                          color: Colors.white,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                      color: Colors.lightBlue,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                 ],
                 FloatingActionButton(
                   backgroundColor: Colors.white,
@@ -126,28 +136,26 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                   onPressed: () => BlocProvider.of<ImageUploadsBloc>(context)
                       .add(PickImage(source: ImageSource.camera)),
                 ),
-                // FloatingActionButton(
-                //   child: Icon(Icons.image),
-                //   onPressed: () => BlocProvider.of<ImageUploadsBloc>(context)
-                //       .add(PickImage(source: ImageSource.gallery)),
-                // ),
                 SizedBox(
                   height: 10,
                 ),
-                RaisedButton(
-                  onPressed: () {
-                    BlocProvider.of<ImageUploadsBloc>(context)
-                        .add(PickImage(source: ImageSource.gallery));
-                  },
-                  child: Text(
-                    'Browse gallery',
-                    style: GoogleFonts.openSans(
-                      color: Colors.white,
-                      fontSize: 14.0,
+                Align(
+                  alignment: Alignment.center,
+                  child: RaisedButton(
+                    onPressed: () {
+                      BlocProvider.of<ImageUploadsBloc>(context)
+                          .add(PickImage(source: ImageSource.gallery));
+                    },
+                    child: Text(
+                      'Browse gallery',
+                      style: GoogleFonts.openSans(
+                        color: Colors.white,
+                        fontSize: 14.0,
+                      ),
                     ),
+                    color: Colors.indigoAccent,
                   ),
-                  color: Colors.indigoAccent,
-                ),
+                )
               ],
             ),
           );
