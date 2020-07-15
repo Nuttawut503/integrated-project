@@ -8,8 +8,13 @@ class MessagingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<MessagingBloc>(
       create: (context) => MessagingBloc(),
-      child: Container(
-        child: Text('MessagingScreen goes sring sring ', style: GoogleFonts.openSans(),),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Container(
+            child: Text('MessagingScreen goes sring sring ', style: GoogleFonts.openSans(),),
+          ),
+        ),
       ),
     );
   }

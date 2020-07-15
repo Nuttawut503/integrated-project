@@ -1,6 +1,7 @@
 import 'package:LAWTALK/controllers/bottom-nav/bottom_nav_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:LAWTALK/view/case_lists_screen.dart';
@@ -10,7 +11,7 @@ import 'package:LAWTALK/view/setting_screen.dart';
 class HomeScreen extends StatefulWidget {
   final Map _currentUser;
 
-  HomeScreen({Key key, Map currentUser})
+  HomeScreen({Key key, @required Map currentUser})
       : _currentUser = currentUser,
         super(key: key);
 
@@ -34,13 +35,16 @@ class _HomeScreenState extends State<HomeScreen> {
               BlocProvider.of<BottomNavBloc>(context).add(PageIndexUpdated(pageNumber: index));
             },
             children: <Widget>[
-              CaseListsScreen(),
+              CaseListsScreen(
+                currentUserId: widget._currentUser['id'],
+              ),
               RelevantCaseScreen(),
               SettingScreen(),
             ],
           ),
         ),
         bottomNavigationBar: BlocBuilder<BottomNavBloc, BottomNavState>(
+          buildWhen: (previousState, currentState) => previousState.currentPage != currentState.currentPage,
           builder: (context, state) {
             return BottomNavyBar(
               selectedIndex: state.currentPage,
@@ -49,16 +53,16 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               items: <BottomNavyBarItem>[
                 BottomNavyBarItem(
-                  title: Text('Pekora'),
-                  icon: Icon(Icons.home),
+                  title: Text(' Case'),
+                  icon: Icon(FontAwesomeIcons.fileArchive),
                 ),
                 BottomNavyBarItem(
-                  title: Text('Shinobu'),
-                  icon: Icon(Icons.apps),
+                  title: Text(' Chat'),
+                  icon: Icon(FontAwesomeIcons.comments),
                 ),
                 BottomNavyBarItem(
-                  title: Text('setting'),
-                  icon: Icon(Icons.settings),
+                  title: Text(' Setting'),
+                  icon: Icon(FontAwesomeIcons.cog),
                 ),
               ],
             );
