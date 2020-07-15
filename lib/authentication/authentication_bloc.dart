@@ -56,11 +56,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   Stream<AuthenticationState> _mapUserInfoUpdatedToState(UserInfoUpdated user) async* {
     yield Authenticated({
       'id': user.constInfo.uid,
-      'name': user.constInfo.displayName,
       'email': user.constInfo.email,
       'photo_url': user.constInfo.photoUrl,
-      'verified': user.editableInfo['verified'] ?? false,
-      'is_lawyer': user.editableInfo['is_lawyer'] ?? false,
+      'citizen_id': user.editableInfo['citizenId'],
+      'name': '${user.editableInfo['first_name'] ?? ''} ${user.editableInfo['last_name'] ?? ''}',
+      'verified': user.editableInfo['isVerified'] ?? false,
+      'is_lawyer': user.editableInfo['isLawyer'] ?? false,
+      'phone': user.editableInfo['phone'] ?? '',
+      'occupation': user.editableInfo['occupation'] ?? '',
     });
   }
 

@@ -5,6 +5,12 @@ import 'package:LAWTALK/authentication/authentication_bloc.dart';
 import 'package:LAWTALK/controllers/setting/setting_bloc.dart';
 
 class SettingScreen extends StatelessWidget {
+  final Map _currentUser;
+
+  SettingScreen({Key key, @required Map currentUser})
+      : _currentUser = currentUser,
+        super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SettingBloc>(
@@ -12,7 +18,7 @@ class SettingScreen extends StatelessWidget {
       child: Container(
         child: Column(
           children: <Widget>[
-            Text('SettingScreen goes sring sring ', style: GoogleFonts.openSans(),),
+            Text('$_currentUser', style: GoogleFonts.openSans(),),
             RaisedButton(
               onPressed: () {
                 BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());

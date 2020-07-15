@@ -38,8 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
               CaseListsScreen(
                 currentUserId: widget._currentUser['id'],
               ),
-              RelevantCaseScreen(),
-              SettingScreen(),
+              RelevantCaseScreen(
+                currentUserId: widget._currentUser['id'],
+              ),
+              SettingScreen(
+                currentUser: widget._currentUser,
+              ),
             ],
           ),
         ),

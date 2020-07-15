@@ -21,9 +21,12 @@ class Authenticated extends AuthenticationState {
   String toString() {
     return '''Authenticated { 
       id: ${currentUser['id']},
+      citizen_id: ${currentUser['citizen_id']},
       name: ${currentUser['name']},
       email: ${currentUser['email']},
-      profile_picture_url: ${currentUser['profile_picture_url']},
+      phone: ${currentUser['phone']},
+      occupation: ${currentUser['occupation']},
+      photo_url: ${currentUser['photo_url']},
       verified: ${currentUser['verified']},
       is_lawyer: ${currentUser['is_lawyer']},
     }\n''';

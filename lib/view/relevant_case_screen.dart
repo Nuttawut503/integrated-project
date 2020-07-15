@@ -4,10 +4,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:LAWTALK/controllers/relevant-case/relevant_case_bloc.dart';
 
 class RelevantCaseScreen extends StatelessWidget {
+  final String _currentUserId;
+
+  RelevantCaseScreen({Key key, @required String currentUserId})
+      : _currentUserId = currentUserId,
+        super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RelevantCaseBloc>(
-      create: (context) => RelevantCaseBloc(),
+      create: (context) => RelevantCaseBloc(
+        userId: _currentUserId,
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: Color.fromRGBO(229, 229, 255, 1.0),

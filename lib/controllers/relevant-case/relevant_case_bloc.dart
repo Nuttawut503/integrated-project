@@ -7,8 +7,11 @@ part 'relevant_case_event.dart';
 part 'relevant_case_state.dart';
 
 class RelevantCaseBloc extends Bloc<RelevantCaseEvent, RelevantCaseState> {
+  final String _userId;
 
-  RelevantCaseBloc(): super(RelevantCaseInitialState());
+  RelevantCaseBloc({@required String userId})
+    : _userId = userId,
+      super(RelevantCaseInitialState());
   
   @override
   Stream<RelevantCaseState> mapEventToState(
