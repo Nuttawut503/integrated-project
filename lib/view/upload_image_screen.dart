@@ -23,6 +23,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Verify')),
       backgroundColor: Colors.black,
       body: SafeArea(
         child: BlocBuilder<ImageUploadsBloc, ImageUploadsState>(
