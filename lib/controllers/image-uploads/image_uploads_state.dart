@@ -18,7 +18,7 @@ class PickedImage extends ImageUploadsState {
 }
 
 class CropedImage extends ImageUploadsState {
-  final PickedFile imageFile;
+  final File imageFile;
 
   CropedImage({this.imageFile});
   @override
@@ -27,8 +27,10 @@ class CropedImage extends ImageUploadsState {
 
 class ClearedImage extends ImageUploadsState {
   final PickedFile imageFile;
+  // final File image;
 
   ClearedImage({this.imageFile});
+
   @override
   List<Object> get props => [imageFile];
 }
