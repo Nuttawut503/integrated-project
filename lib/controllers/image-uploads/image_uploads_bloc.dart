@@ -18,7 +18,7 @@ class ImageUploadsBloc extends Bloc<ImageUploadsEvent, ImageUploadsState> {
     ImageUploadsEvent event,
   ) async* {
     if (event is CropImage) {
-      yield* _cropImage(state);
+      yield* _cropImage((state as PickedImage).imageFile);
     } else if (event is PickImage) {
       yield* _pickImage(event.source);
     } else if (event is ClearImage) {
