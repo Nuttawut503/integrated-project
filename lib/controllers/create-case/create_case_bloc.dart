@@ -7,8 +7,11 @@ part 'create_case_event.dart';
 part 'create_case_state.dart';
 
 class CreateCaseBloc extends Bloc<CreateCaseEvent, CreateCaseState> {
+  final String _userId;
 
-  CreateCaseBloc(): super(CreateCaseInitialState());
+  CreateCaseBloc({@required String userId})
+    : _userId = userId,
+      super(CreateCaseInitialState());
 
   @override
   Stream<CreateCaseState> mapEventToState(
