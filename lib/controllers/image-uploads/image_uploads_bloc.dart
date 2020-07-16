@@ -23,6 +23,8 @@ class ImageUploadsBloc extends Bloc<ImageUploadsEvent, ImageUploadsState> {
       yield* _pickImage(event.source);
     } else if (event is ClearImage) {
       yield ClearedImage(imageFile: null);
+    } else if (event is Next) {
+      yield Nexted();
     }
   }
 
