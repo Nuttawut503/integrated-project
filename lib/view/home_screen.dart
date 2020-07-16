@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Scaffold(
-        appBar: AppBar(title: Text('LAWTALK'),),
+        appBar: AppBar(title: Text('LAWTALK', style: GoogleFonts.openSans(),),),
         backgroundColor: Colors.white,
         body: SafeArea(
           child: PageView(

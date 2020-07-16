@@ -14,15 +14,6 @@ class TitleUpdated extends CreateCaseEvent {
   List<Object> get props => [newTitle];
 }
 
-class DetailUpdated extends CreateCaseEvent {
-  final String newDetail;
-
-  DetailUpdated({@required this.newDetail});
-
-  @override
-  List<Object> get props => [newDetail];
-}
-
 class TagAdded extends CreateCaseEvent {
   final String tagLabel;
 
@@ -41,4 +32,11 @@ class TagRemoved extends CreateCaseEvent {
   List<Object> get props => [index];
 }
 
-class CaseSubmitted extends CreateCaseEvent {}
+class CaseSubmitted extends CreateCaseEvent {
+  final String newDetail;
+
+  CaseSubmitted({@required this.newDetail});
+
+  @override
+  List<Object> get props => [newDetail];
+}

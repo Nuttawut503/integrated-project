@@ -38,7 +38,10 @@ class CreateCaseState {
   }
 
   CreateCaseState addTag({@required String tagLabel}) {
-    return _copyWith(tags: this.tags..add(tagLabel));
+    if (this.tags.indexOf(tagLabel) == -1) {
+      return _copyWith(tags: this.tags..add(tagLabel));
+    }
+    return _copyWith();
   }
 
   CreateCaseState removeTag({@required int index}) {
@@ -46,7 +49,7 @@ class CreateCaseState {
   }
 
   CreateCaseState submit() {
-    return _copyWith(isSubmitting: true);
+    return _copyWith(isSubmitting: true, isSuccess: null, isFailure: null);
   }
 
   CreateCaseState success() {

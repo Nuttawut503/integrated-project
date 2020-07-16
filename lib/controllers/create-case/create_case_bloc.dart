@@ -22,25 +22,18 @@ class CreateCaseBloc extends Bloc<CreateCaseEvent, CreateCaseState> {
   ) async* {
     if (event is TitleUpdated) {
       yield* _mapTitleUpdatedToState(event.newTitle);
-    } else if (event is DetailUpdated) {
-      yield* _mapDetailUpdatedToState(event.newDetail);
     } else if (event is TagAdded) {
       yield* _mapTagAddedToState(event.tagLabel);
     } else if (event is TagRemoved) {
       yield* _mapTagRemovedToState(event.index);
     } else if (event is CaseSubmitted) {
-      yield* _mapCaseSubmittedToState();
+      yield* _mapCaseSubmittedToState(event.newDetail);
     }
   }
 
   Stream<CreateCaseState> _mapTitleUpdatedToState(String newTitle) async* {
     yield state.updateTitle(newTitle: newTitle);
   }
-
-  Stream<CreateCaseState> _mapDetailUpdatedToState(String newDetail) async* {
-    yield state.updateDetail(newDetail: newDetail);
-  }
-
   Stream<CreateCaseState> _mapTagAddedToState(String tagLabel) async* {
     yield state.addTag(tagLabel: tagLabel);
   }
@@ -49,18 +42,18 @@ class CreateCaseBloc extends Bloc<CreateCaseEvent, CreateCaseState> {
     yield state.removeTag(index: index);
   }
 
-  Stream<CreateCaseState> _mapCaseSubmittedToState() async* {
+  Stream<CreateCaseState> _mapCaseSubmittedToState(String newDetail) async* {
     try {
-      yield state.submit();
+      yield state.updateDetail(newDetail: newDetail).submit();
       await _caseRepository.addNewCase(
         userId: _userId,
         title: state.title,
-        detail: state.detail,
+        detail: newDetail,
         tags: state.tags,
       );
-      yield state.success();
+      yield state.updateDetail(newDetail: newDetail).success();
     } catch (_) {
-      yield state.failure();
+      yield state.updateDetail(newDetail: newDetail).failure();
     }
   }
 }
