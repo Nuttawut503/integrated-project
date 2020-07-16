@@ -24,7 +24,27 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Verify')),
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromRGBO(50, 55, 69, 1),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            IconButton(
+                icon: Icon(Icons.photo_camera),
+                onPressed: () => BlocProvider.of<ImageUploadsBloc>(context)
+                    .add(PickImage(source: ImageSource.camera))),
+            SizedBox(
+              width: 100,
+            ),
+            IconButton(
+              icon: Icon(Icons.photo_library),
+              onPressed: () => BlocProvider.of<ImageUploadsBloc>(context)
+                  .add(PickImage(source: ImageSource.gallery)),
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: BlocBuilder<ImageUploadsBloc, ImageUploadsState>(
             builder: (context, state) {
@@ -45,8 +65,19 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        FlatButton(
-                          child: Icon(Icons.crop),
+                        RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.crop),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text('Crop'),
+                            ],
+                          ),
                           color: Colors.pinkAccent,
                           onPressed: () =>
                               BlocProvider.of<ImageUploadsBloc>(context)
@@ -55,8 +86,19 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                         SizedBox(
                           width: 30,
                         ),
-                        FlatButton(
-                          child: Icon(Icons.refresh),
+                        RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.clear),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text('Delete'),
+                            ],
+                          ),
                           color: Colors.indigo,
                           onPressed: () =>
                               BlocProvider.of<ImageUploadsBloc>(context)
@@ -70,6 +112,9 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                     Align(
                       alignment: Alignment.center,
                       child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
                         onPressed: () {
                           _submit(File(state.imageFile.path));
                         },
@@ -109,6 +154,16 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                               BlocProvider.of<ImageUploadsBloc>(context)
                                   .add(ClearImage()),
                         ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        FlatButton(
+                          color: Colors.blue,
+                          child: Icon(Icons.add),
+                          onPressed: () =>
+                              BlocProvider.of<ImageUploadsBloc>(context)
+                                  .add(ClearImage()),
+                        ),
                       ],
                     ),
                     SizedBox(
@@ -132,7 +187,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                     ),
                     SizedBox(
                       height: 10,
-                    ),
+                    )
                   ] else ...[
                     // Center(
                     //   child: Text('You\'re almost there!',
@@ -144,7 +199,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                     ),
                     Center(
                       child: Text(
-                        'Please take a picture or browse gallery of your citizen ID card ',
+                        'Please take a picture or browse gallery of your citizen ID card',
                         style: GoogleFonts.openSans(
                           color: Colors.white,
                           fontSize: 20,
@@ -156,39 +211,9 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                       height: 20,
                     ),
                   ],
-                  Align(
-                    alignment: Alignment.center,
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.camera_alt),
-                      onPressed: () =>
-                          BlocProvider.of<ImageUploadsBloc>(context)
-                              .add(PickImage(source: ImageSource.camera)),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: RaisedButton(
-                      onPressed: () {
-                        BlocProvider.of<ImageUploadsBloc>(context)
-                            .add(PickImage(source: ImageSource.gallery));
-                      },
-                      child: Text(
-                        'Browse gallery',
-                        style: GoogleFonts.openSans(
-                          color: Colors.white,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                      color: Colors.indigoAccent,
-                    ),
-                  ),
                   SizedBox(
                     height: 20,
-                  )
+                  ),
                 ],
               ),
             ),
