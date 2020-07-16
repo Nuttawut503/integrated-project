@@ -24,12 +24,26 @@ class CreateCaseScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
-            child: Container(
-              child: Text('CreateCaseScreen goes sring sring ', style: GoogleFonts.openSans(),),
-            ),
+            child: CreateCase()
           ),
         ),
       ),
+    );
+  }
+}
+
+class CreateCase extends StatefulWidget {
+  @override
+  _CreateCaseState createState() => _CreateCaseState();
+}
+
+class _CreateCaseState extends State<CreateCase> {
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: <Widget>[
+        Text('CreateCaseScreen goes sring sring ', style: GoogleFonts.openSans(),),
+      ],
     );
   }
 }
