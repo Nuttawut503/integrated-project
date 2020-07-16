@@ -28,38 +28,25 @@ class _VerifyScreenState extends State<VerifyScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text('Haha this page goes bruh bruh',
+              Text('Let\'s begin your verificaiton!',
                   style: GoogleFonts.openSans(
                     color: Colors.white,
+                    fontSize: 20,
                   )),
               SizedBox(
                 height: 16.0,
               ),
-              RaisedButton(
+              RaisedButton.icon(
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => UserVerifyScreen(
-                              currentUser: widget._currentUser)));
+                          builder: (context) => LawyerVerifyScreen(
+                                currentUser: widget._currentUser,
+                              )));
                 },
-                child: Text(
-                  'Verify as regular user',
-                  style: GoogleFonts.openSans(
-                    color: Colors.white,
-                    fontSize: 14.0,
-                  ),
-                ),
-                color: Colors.pinkAccent,
-              ),
-              RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => LawyerVerifyScreen()));
-                },
-                child: Text(
+                icon: Icon(Icons.school),
+                label: Text(
                   'Verify as lawyer',
                   style: GoogleFonts.openSans(
                     color: Colors.white,
@@ -67,6 +54,24 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   ),
                 ),
                 color: Colors.indigoAccent,
+              ),
+              RaisedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserVerifyScreen(
+                              currentUser: widget._currentUser)));
+                },
+                icon: Icon(Icons.people),
+                label: Text(
+                  'Verify as regular user',
+                  style: GoogleFonts.openSans(
+                    color: Colors.white,
+                    fontSize: 14.0,
+                  ),
+                ),
+                color: Colors.pinkAccent,
               ),
               SizedBox(
                 height: 50,

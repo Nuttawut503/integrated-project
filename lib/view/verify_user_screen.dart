@@ -55,11 +55,6 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
                       child: RaisedButton(
                         onPressed: () {
                           _createRecord();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ImageUploadScreen(
-                                      currentUser: widget._currentUser)));
                         },
                         child: Text(
                           'Next',
@@ -204,6 +199,11 @@ class _UserVerifyScreenState extends State<UserVerifyScreen> {
           'isLawyer': false,
           'lawyer_picture': null
         });
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    ImageUploadScreen(currentUser: widget._currentUser)));
       } catch (err) {
         print(err);
         throw (err);

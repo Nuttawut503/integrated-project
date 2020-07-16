@@ -8,18 +8,19 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ImageUploadScreen extends StatefulWidget {
+class LawyerImageUploadScreen extends StatefulWidget {
   final Map _currentUser;
 
-  ImageUploadScreen({Key key, Map currentUser})
+  LawyerImageUploadScreen({Key key, Map currentUser})
       : _currentUser = currentUser,
         super(key: key);
 
   @override
-  _ImageUploadScreenState createState() => _ImageUploadScreenState();
+  _LawyerImageUploadScreenState createState() =>
+      _LawyerImageUploadScreenState();
 }
 
-class _ImageUploadScreenState extends State<ImageUploadScreen> {
+class _LawyerImageUploadScreenState extends State<LawyerImageUploadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -188,7 +189,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                   ),
                   SizedBox(
                     height: 20,
-                  )
+                  ),
                 ],
               ),
             ),
