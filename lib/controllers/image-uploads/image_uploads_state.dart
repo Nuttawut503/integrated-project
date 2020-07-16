@@ -34,3 +34,12 @@ class ClearedImage extends ImageUploadsState {
   @override
   List<Object> get props => [imageFile];
 }
+
+class Nexted extends ImageUploadsState {
+  // final File image;
+
+  Nexted();
+
+  @override
+  List<Object> get props => [];
+}

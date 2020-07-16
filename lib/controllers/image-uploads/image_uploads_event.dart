@@ -17,3 +17,5 @@ class PickImage extends ImageUploadsEvent {
 class CropImage extends ImageUploadsEvent {}
 
 class ClearImage extends ImageUploadsEvent {}
+
+class Next extends ImageUploadsEvent {}
