@@ -13,5 +13,5 @@ class MissingCasesUpdated extends MissingCasesEvent {
   MissingCasesUpdated({@required this.cases});
 
   @override
-  List<Object> get props => [cases]; 
+  List<Object> get props => [cases];
 }

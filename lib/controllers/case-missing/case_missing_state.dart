@@ -16,4 +16,9 @@ class MissingCasesLoaded extends MissingCasesState {
 
   @override
   List<Object> get props => [missingCases];
+
+  @override
+  String toString() {
+    return '''{ missingCasesNumber: ${missingCases.length} }''';
+  }
 }

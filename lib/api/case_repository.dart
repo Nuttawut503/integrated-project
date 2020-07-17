@@ -35,9 +35,35 @@ class CaseRepository {
             });
   }
 
-  void getRelevantCases() async {
-    final test = (await Firestore.instance.collection('hello').getDocuments()).documents;
-    print(test);
-    print(test.length);
+  Stream<List<Map>> getMyCases({String userId}) {
+    return _caseCollection
+            .where('owner_id', isEqualTo: userId)
+            .orderBy('submitted_date')
+            .snapshots()
+            .map((snapshot) {
+              return snapshot.documents.map((doc) {
+                Map modifiedDoc = doc.data;
+                modifiedDoc['case_id'] = doc.documentID;
+                modifiedDoc['submitted_date_raw'] = DateTime.fromMillisecondsSinceEpoch(modifiedDoc['submitted_date'].seconds * 1000);
+                modifiedDoc['submitted_date'] = DateFormat.yMd().add_jm().format(modifiedDoc['submitted_date_raw']);
+                return modifiedDoc;
+              }).toList();
+            });
+  }
+
+  Stream<List<Map>> getRelevantCases({String userId}) {
+    return _caseCollection
+            .where('lawyer_assist_id', isEqualTo: userId)
+            .orderBy('submitted_date')
+            .snapshots()
+            .map((snapshot) {
+              return snapshot.documents.map((doc) {
+                Map modifiedDoc = doc.data;
+                modifiedDoc['case_id'] = doc.documentID;
+                modifiedDoc['submitted_date_raw'] = DateTime.fromMillisecondsSinceEpoch(modifiedDoc['submitted_date'].seconds * 1000);
+                modifiedDoc['submitted_date'] = DateFormat.yMd().add_jm().format(modifiedDoc['submitted_date_raw']);
+                return modifiedDoc;
+              }).toList();
+            });
   }
 }

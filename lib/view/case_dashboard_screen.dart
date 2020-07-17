@@ -15,65 +15,79 @@ class CaseDashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (context, state) {
-            if (state is Unauthenticated) {
-              Navigator.of(context).pop();
-            }
-          },
-        ),
-      ],
+    return BlocListener<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        if (state is Unauthenticated) {
+          Navigator.of(context).pop();
+        }
+      },
       child: BlocProvider<CaseDashboardBloc>(
-        create: (context) => CaseDashboardBloc(userId: _userId),
+        create: (context) => CaseDashboardBloc(userId: _userId)..add(LoadingRequested()),
         child: Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              child: ListView(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+              child: BlocBuilder<CaseDashboardBloc, CaseDashboardState>(
+                builder: (context, state) {
+                  return ListView(
                     children: <Widget>[
-                      Text('My Case', style: GoogleFonts.openSans(fontSize: 24.0, fontWeight: FontWeight.bold),),
-                      SizedBox(width: 16.0),
-                      CreateNewCaseButton(currentUserId: _userId),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text('My Case', style: GoogleFonts.openSans(fontSize: 24.0, fontWeight: FontWeight.bold),),
+                          SizedBox(width: 16.0),
+                          CreateNewCaseButton(currentUserId: _userId),
+                        ],
+                      ),
+                      SizedBox(height: 16.0),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                if (state.activeFiltered) BlocProvider.of<CaseDashboardBloc>(context).add(FilterToggled());
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 4.0),
+                                padding: EdgeInsets.symmetric(vertical: 4.0),
+                                decoration: BoxDecoration(
+                                  color: (state.activeFiltered)? null: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                alignment: Alignment.center,
+                                child: Text('WAITING (${state.waitingCases().length})', style: GoogleFonts.openSans(fontWeight: FontWeight.bold),),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                if (!state.activeFiltered) BlocProvider.of<CaseDashboardBloc>(context).add(FilterToggled());
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(left: 4.0),
+                                padding: EdgeInsets.symmetric(vertical: 4.0),
+                                decoration: BoxDecoration(
+                                  color: (state.activeFiltered)? Colors.grey[300]: null,
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                alignment: Alignment.center,
+                                child: Text('ACTIVE (${state.activeCases().length})', style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                          ),
+                        ]
+                      ),
+                      SizedBox(height: 16.0),
+                      if (state.createdCaseLoaded && state.joinedCaseLoaded)
+                        Text('${state.filteredCases()}', style: GoogleFonts.openSans()),
+                      if (!state.createdCaseLoaded || !state.joinedCaseLoaded)
+                        Text('Loading data', style: GoogleFonts.openSans()),
                     ],
-                  ),
-                  SizedBox(height: 16.0),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(right: 4.0),
-                          padding: EdgeInsets.symmetric(vertical: 4.0),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text('WAITING', style: GoogleFonts.openSans(fontWeight: FontWeight.bold),),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(left: 4.0),
-                          padding: EdgeInsets.symmetric(vertical: 4.0),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text('ACTIVE', style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
-                        ),
-                      ),
-                    ]
-                  ),
-                  SizedBox(height: 16.0),
-                ],
+                  );
+                },
               ),
             )
           ),
