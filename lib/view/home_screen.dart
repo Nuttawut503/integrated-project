@@ -146,7 +146,7 @@ class GreetingScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16.0,),
-            if (!isLawyer)
+            if (isLawyer)
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
