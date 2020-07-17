@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             children: <Widget>[
               GreetingScreen(isLawyer: widget._currentUser['is_lawyer'],),
-              if (!widget._currentUser['is_lawyer'])
+              if (widget._currentUser['is_lawyer'])
                 MissingCasesScreen(currentUser: widget._currentUser),
               SettingScreen(
                 currentUser: widget._currentUser,
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: Text('Home', textAlign: TextAlign.center,),
                   icon: Icon(FontAwesomeIcons.home),
                 ),
-                if (!widget._currentUser['is_lawyer'])
+                if (widget._currentUser['is_lawyer'])
                   BottomNavyBarItem(
                     title: Text('Emergency', textAlign: TextAlign.center,),
                     icon: Icon(FontAwesomeIcons.folderOpen),
