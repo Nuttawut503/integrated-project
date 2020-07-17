@@ -176,7 +176,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                           _submit(File(state.imageFile.path));
                         },
                         child: Text(
-                          'Submit',
+                          'Finish',
                           style: GoogleFonts.openSans(
                             color: Colors.white,
                             fontSize: 14.0,

@@ -16,9 +16,97 @@ class SettingScreen extends StatelessWidget {
     return BlocProvider<SettingBloc>(
       create: (context) => SettingBloc(),
       child: Container(
-        child: Column(
+        padding: EdgeInsets.all(20),
+        child: ListView(
           children: <Widget>[
-            Text('$_currentUser', style: GoogleFonts.openSans(),),
+            Row(
+              children: <Widget>[
+                Container(
+                  child: Image.network('${_currentUser['photo_url']}'),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                    Radius.circular(100),
+                  )),
+                )
+              ],
+            ),
+            Text(
+              '${_currentUser}',
+              style: GoogleFonts.openSans(),
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Text(
+              'Name',
+              style: GoogleFonts.openSans(fontSize: 25),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              '${_currentUser['name']}',
+              style: GoogleFonts.openSans(fontSize: 15),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              'Name',
+              style: GoogleFonts.openSans(fontSize: 25),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              '${_currentUser['name']}',
+              style: GoogleFonts.openSans(fontSize: 15),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              'Name',
+              style: GoogleFonts.openSans(fontSize: 25),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              '${_currentUser['name']}',
+              style: GoogleFonts.openSans(fontSize: 15),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              'Name',
+              style: GoogleFonts.openSans(fontSize: 25),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              '${_currentUser['name']}',
+              style: GoogleFonts.openSans(fontSize: 15),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              'Name',
+              style: GoogleFonts.openSans(fontSize: 25),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              '${_currentUser['name']}',
+              style: GoogleFonts.openSans(fontSize: 15),
+            ),
             RaisedButton(
               onPressed: () {
                 BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
