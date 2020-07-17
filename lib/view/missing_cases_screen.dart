@@ -30,7 +30,7 @@ class MissingCasesScreen extends StatelessWidget {
         create: (context) => MissingCasesBloc(userId: _currentUser['id'])..add(MissingCasesLoadingStarted()),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.0),
-          child: MissingCases(),
+          child: MissingCases(currentUserId: _currentUser['id'],),
         ),
       ),
     );
@@ -38,6 +38,10 @@ class MissingCasesScreen extends StatelessWidget {
 }
 
 class MissingCases extends StatelessWidget {
+  final String currentUserId;
+
+  MissingCases({@required this.currentUserId});
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -53,6 +57,7 @@ class MissingCases extends StatelessWidget {
                   SizedBox(height: 12.0,),
                   for (Map item in state.missingCases)
                     CaseCard(
+                      currentUserId: currentUserId,
                       caseId: item['case_id'],
                       title: item['title'],
                       time: item['submitted_date'],
@@ -73,10 +78,11 @@ class MissingCases extends StatelessWidget {
 }
 
 class CaseCard extends StatelessWidget {
-  final String caseId, title, time;
+  final String currentUserId, caseId, title, time;
   final List tags;
 
   CaseCard({
+    @required this.currentUserId,
     @required this.caseId,
     @required this.title,
     @required this.time,
@@ -132,7 +138,7 @@ class CaseCard extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => CaseInfoScreen(caseId: caseId)
+                  builder: (context) => CaseInfoScreen(caseId: caseId, currentUserId: currentUserId,)
                 )
               );
             },

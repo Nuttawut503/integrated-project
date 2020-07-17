@@ -66,4 +66,26 @@ class CaseRepository {
               }).toList();
             });
   }
+
+  Stream<Map> getInfoFromCase({String caseId}) {
+    return _caseCollection.document('$caseId').snapshots().map((doc) {
+      if (doc.exists) {
+        Map modifiedDoc = doc.data;
+        modifiedDoc['submitted_date'] = DateTime.fromMillisecondsSinceEpoch(modifiedDoc['submitted_date'].seconds * 1000);
+        modifiedDoc['submitted_date'] = DateFormat.yMd().add_jm().format(modifiedDoc['submitted_date']);
+        return modifiedDoc;
+      }
+      return Map();
+    });
+  }
+
+  Future<void> updateLawyerAssistId({String caseId, String lawyerId}) async {
+    await _caseCollection.document('$caseId').updateData({
+      'lawyer_assist_id': lawyerId,
+    });
+  }
+
+  Future<void> deleteCase({String caseId}) async {
+    await _caseCollection.document('$caseId').delete();
+  }
 }
