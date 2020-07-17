@@ -27,6 +27,7 @@ class Authenticated extends AuthenticationState {
       phone: ${currentUser['phone']},
       occupation: ${currentUser['occupation']},
       photo_url: ${currentUser['photo_url']},
+      address: ${currentUser['address']},
       verified: ${currentUser['verified']},
       is_lawyer: ${currentUser['is_lawyer']},
     }\n''';

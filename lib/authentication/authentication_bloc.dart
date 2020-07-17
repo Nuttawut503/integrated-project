@@ -8,14 +8,15 @@ import 'package:LAWTALK/api/user_repository.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepository _userRepository;
   StreamSubscription _userSubscription;
 
   AuthenticationBloc({@required UserRepository userRepository})
-    : assert(userRepository != null),
-      _userRepository = userRepository,
-      super(Uninitialized());
+      : assert(userRepository != null),
+        _userRepository = userRepository,
+        super(Uninitialized());
 
   @override
   Stream<AuthenticationState> mapEventToState(
@@ -44,25 +45,26 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   Stream<AuthenticationState> _mapLoggedInToState() async* {
     FirebaseUser constInfo = await _userRepository.getConstUserInfo();
     _userSubscription?.cancel();
-    _userSubscription = _userRepository.getEditableUserInfo(constInfo.uid)
-                        .listen((editableInfo) => add(
-                          UserInfoUpdated(
-                            constInfo: constInfo,
-                            editableInfo: editableInfo.exists? editableInfo.data: Map()
-                          )
-                        ));
+    _userSubscription = _userRepository
+        .getEditableUserInfo(constInfo.uid)
+        .listen((editableInfo) => add(UserInfoUpdated(
+            constInfo: constInfo,
+            editableInfo: editableInfo.exists ? editableInfo.data : Map())));
   }
 
-  Stream<AuthenticationState> _mapUserInfoUpdatedToState(UserInfoUpdated user) async* {
+  Stream<AuthenticationState> _mapUserInfoUpdatedToState(
+      UserInfoUpdated user) async* {
     yield Authenticated({
       'id': user.constInfo.uid,
       'email': user.constInfo.email,
       'photo_url': user.constInfo.photoUrl,
       'citizen_id': user.editableInfo['citizenId'],
-      'name': '${user.editableInfo['first_name'] ?? ''} ${user.editableInfo['last_name'] ?? ''}',
+      'name':
+          '${user.editableInfo['first_name'] ?? ''} ${user.editableInfo['last_name'] ?? ''}',
       'verified': user.editableInfo['isVerified'] ?? false,
       'is_lawyer': user.editableInfo['isLawyer'] ?? false,
       'phone': user.editableInfo['phone'] ?? '',
+      'address': user.editableInfo['address'] ?? '',
       'occupation': user.editableInfo['occupation'] ?? '',
     });
   }
