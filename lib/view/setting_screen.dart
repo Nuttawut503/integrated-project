@@ -19,13 +19,82 @@ class SettingScreen extends StatelessWidget {
         padding: EdgeInsets.all(12.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'Basic Information',
-              style: GoogleFonts.openSans(
-                  fontWeight: FontWeight.bold, fontSize: 28.0),
+            Center(
+              child: Text(
+                'Personal Information',
+                style: GoogleFonts.openSans(fontSize: 28.0),
+              ),
             ),
-            SizedBox(height: 16.0),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: NetworkImage('${_currentUser['photo_url']}'),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      '${_currentUser['name']}',
+                      style: GoogleFonts.openSans(fontSize: 20),
+                    ),
+                    Text(
+                      '${_currentUser['email']}',
+                      style: GoogleFonts.openSans(fontSize: 15),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            // Text('$_currentUser'),
+
+            // Text(
+            //   'Phone',
+            //   style: GoogleFonts.openSans(fontSize: 20),
+            // ),
+            // SizedBox(height: 5),
+            // Text(
+            //   '${_currentUser['phone']}',
+            //   style: GoogleFonts.openSans(fontSize: 15),
+            // ),
+            // SizedBox(height: 10),
+            // Text(
+            //   'Address',
+            //   style: GoogleFonts.openSans(fontSize: 20),
+            // ),
+            // SizedBox(height: 5),
+            // Text(
+            //   '${_currentUser['address']}',
+            //   style: GoogleFonts.openSans(fontSize: 15),
+            // ),
+            // SizedBox(height: 10),
+            // Text(
+            //   'Occupation',
+            //   style: GoogleFonts.openSans(fontSize: 20),
+            // ),
+            // SizedBox(height: 5),
+            // Text(
+            //   '${_currentUser['occupation']}',
+            //   style: GoogleFonts.openSans(fontSize: 15),
+            // ),
+            // SizedBox(height: 10),
+
+            SizedBox(height: 30.0),
             Table(
               children: <TableRow>[
                 TableRow(children: [
@@ -52,10 +121,16 @@ class SettingScreen extends StatelessWidget {
                   Text('${_currentUser['phone']}',
                       style: GoogleFonts.openSans()),
                 ]),
+                // TableRow(children: [
+                //   Text('Lawyer:',
+                //       style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
+                //   Text('${_currentUser['is_lawyer'] ? 'YES' : 'NO'}',
+                //       style: GoogleFonts.openSans()),
+                // ]),
                 TableRow(children: [
-                  Text('Lawyer:',
+                  Text('Address:',
                       style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
-                  Text('${_currentUser['is_lawyer'] ? 'YES' : 'NO'}',
+                  Text('${_currentUser['address']}',
                       style: GoogleFonts.openSans()),
                 ]),
               ],
@@ -63,15 +138,17 @@ class SettingScreen extends StatelessWidget {
             SizedBox(
               height: 32.0,
             ),
-            FlatButton(
-              onPressed: () {
-                BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
-              },
-              child: Text(
-                'SIGN OUT',
-                style: GoogleFonts.openSans(
-                  color: Colors.red,
-                  fontSize: 14.0,
+            Center(
+              child: FlatButton(
+                onPressed: () {
+                  BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
+                },
+                child: Text(
+                  'SIGN OUT',
+                  style: GoogleFonts.openSans(
+                    color: Colors.red,
+                    fontSize: 14.0,
+                  ),
                 ),
               ),
             ),
