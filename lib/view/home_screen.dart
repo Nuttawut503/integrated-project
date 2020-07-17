@@ -128,7 +128,7 @@ class GreetingScreen extends StatelessWidget {
           children: <Widget>[
             Text('Welcome !!', style: GoogleFonts.openSans(fontSize: 39.0, fontWeight: FontWeight.bold),),
             SizedBox(height: 12.0,),
-            Text('We really appreciate your coopeation', style: GoogleFonts.openSans(fontWeight: FontWeight.bold),),
+            Text('We really appreciate your cooperation', style: GoogleFonts.openSans(fontWeight: FontWeight.bold),),
             SizedBox(height: 24.0,),
             RichText(
               textAlign: TextAlign.center,

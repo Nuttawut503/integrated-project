@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:LAWTALK/authentication/authentication_bloc.dart';
-import 'package:LAWTALK/controllers/case-info/case_info_bloc.dart';
+import 'package:LAWTALK/controllers/case-dashboard/case_dashboard_bloc.dart';
 import 'package:LAWTALK/view/create_case_screen.dart';
 
 class CaseDashboardScreen extends StatelessWidget {
@@ -25,8 +25,8 @@ class CaseDashboardScreen extends StatelessWidget {
           },
         ),
       ],
-      child: BlocProvider<CaseInfoBloc>(
-        create: (context) => CaseInfoBloc(caseId: ''),
+      child: BlocProvider<CaseDashboardBloc>(
+        create: (context) => CaseDashboardBloc(userId: _userId),
         child: Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(

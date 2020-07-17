@@ -20,6 +20,8 @@ class SettingScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text('Basic Information', style: GoogleFonts.openSans(fontWeight: FontWeight.bold, fontSize: 28.0),),
+            SizedBox(height: 16.0),
             Table(
               children: <TableRow>[
                 TableRow(

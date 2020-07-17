@@ -34,4 +34,10 @@ class CaseRepository {
               }).toList();
             });
   }
+
+  void getRelevantCases() async {
+    final test = (await Firestore.instance.collection('hello').getDocuments()).documents;
+    print(test);
+    print(test.length);
+  }
 }
