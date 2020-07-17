@@ -16,109 +16,64 @@ class SettingScreen extends StatelessWidget {
     return BlocProvider<SettingBloc>(
       create: (context) => SettingBloc(),
       child: Container(
-        padding: EdgeInsets.all(20),
-        child: ListView(
+        padding: EdgeInsets.all(12.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Container(
-                  child: Image.network('${_currentUser['photo_url']}'),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                    Radius.circular(100),
-                  )),
-                )
+            Text(
+              'Basic Information',
+              style: GoogleFonts.openSans(
+                  fontWeight: FontWeight.bold, fontSize: 28.0),
+            ),
+            SizedBox(height: 16.0),
+            Table(
+              children: <TableRow>[
+                TableRow(children: [
+                  Text('Name:',
+                      style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
+                  Text('${_currentUser['name']}',
+                      style: GoogleFonts.openSans()),
+                ]),
+                TableRow(children: [
+                  Text('Occupation:',
+                      style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
+                  Text('${_currentUser['occupation']}',
+                      style: GoogleFonts.openSans()),
+                ]),
+                TableRow(children: [
+                  Text('Email:',
+                      style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
+                  Text('${_currentUser['email']}',
+                      style: GoogleFonts.openSans()),
+                ]),
+                TableRow(children: [
+                  Text('Phone:',
+                      style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
+                  Text('${_currentUser['phone']}',
+                      style: GoogleFonts.openSans()),
+                ]),
+                TableRow(children: [
+                  Text('Lawyer:',
+                      style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
+                  Text('${_currentUser['is_lawyer'] ? 'YES' : 'NO'}',
+                      style: GoogleFonts.openSans()),
+                ]),
               ],
             ),
-            Text(
-              '${_currentUser}',
-              style: GoogleFonts.openSans(),
-            ),
             SizedBox(
-              height: 50,
+              height: 32.0,
             ),
-            Text(
-              'Name',
-              style: GoogleFonts.openSans(fontSize: 25),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              '${_currentUser['name']}',
-              style: GoogleFonts.openSans(fontSize: 15),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              'Name',
-              style: GoogleFonts.openSans(fontSize: 25),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              '${_currentUser['name']}',
-              style: GoogleFonts.openSans(fontSize: 15),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              'Name',
-              style: GoogleFonts.openSans(fontSize: 25),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              '${_currentUser['name']}',
-              style: GoogleFonts.openSans(fontSize: 15),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              'Name',
-              style: GoogleFonts.openSans(fontSize: 25),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              '${_currentUser['name']}',
-              style: GoogleFonts.openSans(fontSize: 15),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              'Name',
-              style: GoogleFonts.openSans(fontSize: 25),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              '${_currentUser['name']}',
-              style: GoogleFonts.openSans(fontSize: 15),
-            ),
-            RaisedButton(
+            FlatButton(
               onPressed: () {
                 BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
               },
               child: Text(
-                'Sign out',
+                'SIGN OUT',
                 style: GoogleFonts.openSans(
-                  color: Colors.white,
+                  color: Colors.red,
                   fontSize: 14.0,
                 ),
               ),
-              color: Colors.green,
             ),
           ],
         ),

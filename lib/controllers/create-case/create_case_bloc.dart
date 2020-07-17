@@ -21,9 +21,9 @@ class CreateCaseBloc extends Bloc<CreateCaseEvent, CreateCaseState> {
     CreateCaseEvent event,
   ) async* {
     if (event is TitleUpdated) {
-      yield* _mapTitleUpdatedToState(event.newTitle);
+      yield* _mapTitleUpdatedToState(event.newTitle.trim());
     } else if (event is TagAdded) {
-      yield* _mapTagAddedToState(event.tagLabel);
+      yield* _mapTagAddedToState(event.tagLabel.trim());
     } else if (event is TagRemoved) {
       yield* _mapTagRemovedToState(event.index);
     } else if (event is CaseSubmitted) {
@@ -48,7 +48,7 @@ class CreateCaseBloc extends Bloc<CreateCaseEvent, CreateCaseState> {
       await _caseRepository.addNewCase(
         userId: _userId,
         title: state.title,
-        detail: newDetail,
+        detail: newDetail.trim(),
         tags: state.tags,
       );
       yield state.updateDetail(newDetail: newDetail).success();

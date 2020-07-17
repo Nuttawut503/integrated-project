@@ -5,6 +5,12 @@ import 'package:LAWTALK/authentication/authentication_bloc.dart';
 import 'package:LAWTALK/controllers/case-info/case_info_bloc.dart';
 
 class CaseInfoScreen extends StatelessWidget {
+  final String _caseId;
+
+  CaseInfoScreen({Key key, @required String caseId})
+    : _caseId = caseId,
+      super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
@@ -18,7 +24,7 @@ class CaseInfoScreen extends StatelessWidget {
         ),
       ],
       child: BlocProvider<CaseInfoBloc>(
-        create: (context) => CaseInfoBloc(),
+        create: (context) => CaseInfoBloc(caseId: _caseId),
         child: Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(

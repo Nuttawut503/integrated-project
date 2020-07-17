@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CaseRepository {
@@ -16,5 +17,53 @@ class CaseRepository {
       'owner_id': userId,
       'lawyer_assist_id': null,
     });
+  }
+
+  Stream<List<Map>> getAllOtherCases() {
+    return _caseCollection
+            .where('lawyer_assist_id', isNull: true)
+            .orderBy('submitted_date')
+            .snapshots()
+            .map((snapshot) {
+              return snapshot.documents.map((doc) {
+                Map modifiedDoc = doc.data;
+                modifiedDoc['case_id'] = doc.documentID;
+                modifiedDoc['submitted_date'] = DateTime.fromMillisecondsSinceEpoch(modifiedDoc['submitted_date'].seconds * 1000);
+                modifiedDoc['submitted_date'] = DateFormat.yMd().add_jm().format(modifiedDoc['submitted_date']);
+                return modifiedDoc;
+              }).toList();
+            });
+  }
+
+  Stream<List<Map>> getMyCases({String userId}) {
+    return _caseCollection
+            .where('owner_id', isEqualTo: userId)
+            .orderBy('submitted_date')
+            .snapshots()
+            .map((snapshot) {
+              return snapshot.documents.map((doc) {
+                Map modifiedDoc = doc.data;
+                modifiedDoc['case_id'] = doc.documentID;
+                modifiedDoc['submitted_date_raw'] = DateTime.fromMillisecondsSinceEpoch(modifiedDoc['submitted_date'].seconds * 1000);
+                modifiedDoc['submitted_date'] = DateFormat.yMd().add_jm().format(modifiedDoc['submitted_date_raw']);
+                return modifiedDoc;
+              }).toList();
+            });
+  }
+
+  Stream<List<Map>> getRelevantCases({String userId}) {
+    return _caseCollection
+            .where('lawyer_assist_id', isEqualTo: userId)
+            .orderBy('submitted_date')
+            .snapshots()
+            .map((snapshot) {
+              return snapshot.documents.map((doc) {
+                Map modifiedDoc = doc.data;
+                modifiedDoc['case_id'] = doc.documentID;
+                modifiedDoc['submitted_date_raw'] = DateTime.fromMillisecondsSinceEpoch(modifiedDoc['submitted_date'].seconds * 1000);
+                modifiedDoc['submitted_date'] = DateFormat.yMd().add_jm().format(modifiedDoc['submitted_date_raw']);
+                return modifiedDoc;
+              }).toList();
+            });
   }
 }
